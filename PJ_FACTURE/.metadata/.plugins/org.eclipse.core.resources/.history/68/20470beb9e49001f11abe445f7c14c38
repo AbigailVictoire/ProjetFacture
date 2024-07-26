@@ -1,0 +1,5 @@
+package com.news.beans;
+
+public class Users {
+
+}

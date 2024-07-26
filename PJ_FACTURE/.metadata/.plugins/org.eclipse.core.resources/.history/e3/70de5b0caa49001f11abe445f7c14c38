@@ -1,0 +1,12 @@
+package com.news.dao;
+
+import com.news.beans.Users;
+
+public  interface UsersDao {
+
+	/* ++++ LES METHODES TROUVER ++++ */
+    public Users getUsers(int id);
+    public  Users getUser1(String email);
+    public Users getUs1(String password);
+	
+}

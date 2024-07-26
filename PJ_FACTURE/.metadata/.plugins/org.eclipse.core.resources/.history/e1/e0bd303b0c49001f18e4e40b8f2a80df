@@ -1,0 +1,80 @@
+package com.news.controllers;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+
+@WebServlet("/Login")
+public class CRUDConnexion extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    // JDBC URL, username, password of MySQL server
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/facture_recouvrement";
+    private static final String JDBC_USER = "vgh@gmail.com";
+    private static final String JDBC_PASSWORD = "112233";
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        // Validation des informations d'identification
+        boolean isValidUser = validateCredentials(username, password);
+
+        if (isValidUser) {
+            // Redirection vers la page d'accueil si l'authentification réussit
+            response.sendRedirect(request.getContextPath() + "/accueil.jsp");
+        } else {
+            // Gérer l'échec de l'authentification
+            response.sendRedirect(request.getContextPath() + "/erreur.jsp");
+        }
+    }
+
+    private boolean validateCredentials(String username, String password) {
+        boolean isValid = false;
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            // Établir la connexion à la base de données
+            conn = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+
+            // Requête SQL pour vérifier les informations d'identification
+            String sql = "SELECT * FROM users WHERE email = ? AND mot_de_passe = ?";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, username);
+            stmt.setString(2, password); // Ici, il faudrait utiliser un mot de passe haché en réalité
+
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                // Si l'utilisateur existe dans la base de données
+                isValid = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Fermeture des ressources JDBC
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return isValid;
+    }
+}

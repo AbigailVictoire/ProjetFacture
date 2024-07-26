@@ -1,0 +1,68 @@
+package com.news.controllers;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.news.beans.Users;
+import com.news.dao.GetConnexion;
+import com.news.dao.UsersDI;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+
+
+
+@WebServlet("/Administration")
+public class CRUDAdmin extends HttpServlet {
+	
+	private static final long serialVersionUID = 1L;
+	private static final String ACCUEIL = "/WEB-INF/views/accueil.jsp";
+	private static final String ADMINISTRATION = "/WEB-INF/views/administration.jsp";
+	
+	
+
+	private static final String SQL_SELECT_PAR 	=	"SELECT * FROM users WHERE email = ? AND mot_de_passe = ?";
+	
+	UsersDI userDI = new UsersDI();
+
+	
+	Users users	=	new Users();
+
+	
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+    	HttpSession session = request.getSession();
+		session.invalidate();
+		response.sendRedirect( request.getContextPath() + ACCUEIL );
+		
+	}
+	
+	
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		String page = request.getParameter("page");
+		String connexionName = request.getParameter("connexionName");
+		
+		
+		if(connexionName.equals("connexion")) {
+			
+			//this.getServletContext().getRequestDispatcher(ACCUEIL).forward(request, response);
+		}
+		request.setAttribute("page", page);
+		this.getServletContext().getRequestDispatcher(ADMINISTRATION).forward(request, response);
+		
+	}
+    
+}

@@ -1,0 +1,5 @@
+package com.news.controllers;
+
+public class CRUDUser {
+
+}

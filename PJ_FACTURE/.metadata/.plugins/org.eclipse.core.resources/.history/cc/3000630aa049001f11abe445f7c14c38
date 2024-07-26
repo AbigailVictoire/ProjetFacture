@@ -1,0 +1,9 @@
+package com.news.dao;
+
+public class UsersDao {
+
+	/* ++++ LES METHODES TROUVER ++++ */
+    public Users getUsers(int id);
+    public Users getUsers(String login);
+	
+}

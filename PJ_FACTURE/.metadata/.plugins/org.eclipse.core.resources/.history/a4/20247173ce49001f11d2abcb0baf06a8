@@ -1,0 +1,19 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<style type="text/css">
+		body{
+			background:  url('/assets/images/RH.jpg') no-repeat fixed;
+			background-size: cover;
+			color: #FFF;
+			font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+			font-size: 12px;
+			line-heght: 1;
+		}
+		</style>
+
+<div class="container-fluid entg">
+	<div class="colorVert">
+		<h3>FACTURE-RECOUVREMENT<span><a href="<c:url value="/Login"/>">Retour</a></span></h3>
+	</div>
+</div>

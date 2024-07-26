@@ -1,0 +1,7 @@
+INDEX VERSION 1.134
+C:\Users\VISION HOLDING\Desktop\PJ_FACTURE\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1428810760.index
+\RECOUVREMENT\src
+C:\Users\VISION HOLDING\Desktop\PJ_FACTURE\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4065841881.index
+\RECOUVREMENT\src
+C:\Users\VISION HOLDING\Desktop\PJ_FACTURE\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2056500397.index
+\RECOUVREMENT\src

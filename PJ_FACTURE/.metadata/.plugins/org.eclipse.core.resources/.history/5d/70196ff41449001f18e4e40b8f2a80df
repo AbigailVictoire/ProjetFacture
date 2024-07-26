@@ -1,0 +1,88 @@
+package com.news.controllers;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.news.dao.GetConnexion;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
+
+@WebServlet("/Login")
+public class CRUDConnexion extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+    public static final String INDEX 	= "/index.jsp";
+	private static final String ACCUEIL = "/WEB-INF/views/accueil.jsp";
+	
+	//private static final String FORMAT_DATE 			= "yyy-MM-dd";
+	
+		private static final String SQL_SELECT_PAR 	=	"SELECT * FROM users WHERE email = ? AND mot_de_passe = ?";
+		
+
+    public void doGET(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+    	HttpSession session = request.getSession();
+		session.invalidate();
+		response.sendRedirect( request.getContextPath() + INDEX );
+	}
+	
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		String email = request.getParameter("username");
+		String password = request.getParameter("password");
+		String page = request.getParameter("page");
+		
+		Connection cn = GetConnexion.getConnection();
+		PreparedStatement req = null;
+		ResultSet resultSet	=	null;
+	    
+	    try {
+			 if (null!=cn ) {				
+				req = cn.prepareStatement(SQL_SELECT_PAR);
+				req.setString(1, email);
+				req.setString(2, password);
+				resultSet = req.executeQuery();
+				if ( resultSet.next() ) {
+					
+					String login = resultSet.getString("login");
+					
+									
+					
+										
+					session.setAttribute("page", page);
+					this.getServletContext().getRequestDispatcher(ACCUEIL).forward(request, response);
+				} else {
+					response.sendRedirect( request.getContextPath() + INDEX );
+				}
+			 } else {
+				 response.sendRedirect( request.getContextPath() + INDEX );
+			 }
+		
+		} catch ( SQLException e ) {
+			e.getStackTrace();
+		} finally {
+			if(req!=null) {
+				 try {
+	                 req.close();
+	                 cn.close();
+	             } catch (SQLException ex) {
+	                Logger.getLogger(CRUDConnexion.class.getName()).log(Level.SEVERE, null, ex);
+	             }
+			}
+			
+		}
+		
+	}
+}
